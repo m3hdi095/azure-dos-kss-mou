@@ -14,10 +14,16 @@ $user   = getenv('DB_USER');
 $pass   = getenv('DB_PASS');
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8;sslmode=required", $user, $pass, [
-    PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false
-]);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo = new PDO(
+        "mysql:host=$host;dbname=$dbname;charset=utf8",
+        $user,
+        $pass,
+        [
+            PDO::MYSQL_ATTR_SSL_CA => '/etc/ssl/certs/ca-certificates.crt',
+            PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        ]
+    );
 } catch (PDOException $e) {
     die("Erreur de connexion : " . $e->getMessage());
 }
