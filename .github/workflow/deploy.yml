@@ -1,0 +1,19 @@
+name: Deploy to Azure App Service
+
+on:
+  push:
+    branches: [ main, dev ] # Le déploiement se lance quand tu push sur ces branches
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ' myapp-webapp-dos-kss-mou' # <--- METS ICI LE NOM DE TON APP SERVICE AZURE
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: .
