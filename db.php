@@ -19,11 +19,11 @@ try {
         $user,
         $pass,
         [
-            PDO::MYSQL_ATTR_SSL_CA => '/etc/ssl/certs/ca-certificates.crt',
+            PDO::MYSQL_ATTR_SSL_CA            => true,
             PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
         ]
     );
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("Erreur de connexion : " . $e->getMessage());
 }
