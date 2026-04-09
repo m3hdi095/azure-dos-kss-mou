@@ -13,11 +13,33 @@ $dbname = getenv('DB_NAME');
 $user   = getenv('DB_USER');
 $pass   = getenv('DB_PASS');
 
+// CA bundle système (disponible sur Azure App Service Linux)
+$caBundles = [
+    '/etc/ssl/certs/ca-certificates.crt',       // Debian/Ubuntu
+    '/etc/pki/tls/certs/ca-bundle.crt',         // RHEL/CentOS
+    '/etc/ssl/ca-bundle.pem',
+];
+
+$caFile = null;
+foreach ($caBundles as $path) {
+    if (file_exists($path)) { $caFile = $path; break; }
+}
+
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8;sslmode=required", $user, $pass, [
-    PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false
-]);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $options = [
+        PDO::ATTR_ERRMODE                      => PDO::ERRMODE_EXCEPTION,
+        PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
+    ];
+    if ($caFile) {
+        $options[PDO::MYSQL_ATTR_SSL_CA] = $caFile;
+    }
+
+    $pdo = new PDO(
+        "mysql:host=$host;dbname=$dbname;charset=utf8",
+        $user,
+        $pass,
+        $options
+    );
 } catch (PDOException $e) {
     die("Erreur de connexion : " . $e->getMessage());
 }
