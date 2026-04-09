@@ -7,20 +7,28 @@ $tasks = $pdo->query("SELECT * FROM tasks ORDER BY id DESC")->fetchAll(PDO::FETC
 <head>
     <meta charset="UTF-8">
     <title>Todo App</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<div class="container">
     <h1>📝 Todo List</h1>
 
-    <form action="add.php" method="POST">
+    <form class="add-form" action="app.php" method="POST">
         <input type="text" name="title" placeholder="Nouvelle tâche..." required>
         <button type="submit">Ajouter</button>
     </form>
 
     <ul>
         <?php foreach ($tasks as $task): ?>
-            <li><?= htmlspecialchars($task['title']) ?></li>
+            <li>
+                <span><?= htmlspecialchars($task['title']) ?></span>
+                <form class="del-form" action="app.php" method="POST">
+                    <input type="hidden" name="delete_id" value="<?= $task['id'] ?>">
+                    <button type="submit" title="Supprimer">✕</button>
+                </form>
+            </li>
         <?php endforeach; ?>
     </ul>
+</div>
 </body>
 </html>
