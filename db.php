@@ -13,10 +13,9 @@ $dbname = getenv('DB_NAME');
 $user   = getenv('DB_USER');
 $pass   = getenv('DB_PASS');
 
-// CA bundle système (disponible sur Azure App Service Linux)
 $caBundles = [
-    '/etc/ssl/certs/ca-certificates.crt',       // Debian/Ubuntu
-    '/etc/pki/tls/certs/ca-bundle.crt',         // RHEL/CentOS
+    '/etc/ssl/certs/ca-certificates.crt',       
+    '/etc/pki/tls/certs/ca-bundle.crt',         
     '/etc/ssl/ca-bundle.pem',
 ];
 
