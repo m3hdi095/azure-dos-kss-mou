@@ -11,7 +11,7 @@ $tasks = $pdo->query("SELECT * FROM tasks ORDER BY id DESC")->fetchAll(PDO::FETC
 </head>
 <body>
 <div class="container">
-    <h1>📝 Todo List</h1>
+    <h1>VIVE DOCKER </h1>
 
     <form class="add-form" action="app.php" method="POST">
         <input type="text" name="title" placeholder="Nouvelle tâche..." required>
